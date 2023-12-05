@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Spring escaneará recursivamente todas las clases del paquete y subpaquetes
+	com.ejemplo -->
+	<context:component-scan base-package="com.ejemplo"/>
+	
+	<!-- carga del archivo datos.properties -->
+	<context:property-placeholder location="classpath:datos.properties"/>
+	
+	<!-- a partir de aquí se definen los beans -->
+	<!-- bean mientrenador asociado a la clase EntrenadorBaloncesto -->
+	<!-- <bean id="mientrenador" class="com.ejemplo.EntrenadorFutbol"></bean> -->
+	
+<!-- Bean de la clase que utilizamos para hacer referencia de la interfaz -->
+	<bean id="miExperienciaServicio" class="com.ejemplo.PocaExperienciaServicio"></bean>
+	
+	<bean id="mientrenador" class="com.ejemplo.EntrenadorFutbol">
+	<!-- Se establece qué bean se inyecta (miExperienciaService)
+	y dónde (en el constructor) -->
+		<constructor-arg ref="miExperienciaServicio"></constructor-arg>
+		
+<!-- 	<property name="email" value="correodeprueba@mail.com" /> -->
+<!-- 	<property name="equipo" value="Mean Machine" /> -->
+		
+<!-- 	Aplicamos el valor de "datos" a los atributos -->
+		<property name="email" value="${datos.email}" />
+		<property name="equipo" value="${datos.equipo}" />
+	</bean>
+
+<!-- Bean de la clase que utilizamos para hacer referencia de la interfaz -->
+	<bean id="mientrenador2" class="com.ejemplo.EntrenadorBaloncesto">
+		<!-- Se establece qué bean se inyecta (miExperienciaServicio)
+		y sobre qué método setter (setExperienciaServicio) -->
+		<property name="experienciaServicio" ref="miExperienciaServicio" />
+	</bean>
+	
+
+</beans>
